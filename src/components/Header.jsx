@@ -5,7 +5,10 @@ import { ReactComponent as StarIcon } from '../assets/star.svg';
 import { ReactComponent as ClockIcon } from '../assets/clock.svg';
 import { ReactComponent as HeartIcon } from '../assets/heart.svg';
 
-const Header = () => {
+const Header = ({
+    hearts,
+    score
+}) => {
     return (
         <Stack className='header'
             direction="row"
@@ -18,7 +21,7 @@ const Header = () => {
                 <StarIcon
                     width={'50px'}
                     height={'50px'} />
-                <Typography color="#EFCE4A" variant='h4' >0</Typography>
+                <Typography color="#EFCE4A" variant='h4' >{score}</Typography>
             </Stack>
             <Stack
                 direction={'row'}
@@ -39,7 +42,7 @@ const Header = () => {
                 <HeartIcon
                     width={'45px'}
                     height={'45px'} />
-                <Typography variant='h4' color={'#E34326'} >5</Typography>
+                <Typography variant='h4' color={'#E34326'} >{hearts}</Typography>
             </Stack>
             <Button
                 sx={{ m: 1.5 }}

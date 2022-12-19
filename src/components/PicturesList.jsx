@@ -1,10 +1,11 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import PictureCard from './PictureCard';
 import { Box, Stack } from '@mui/material';
-import imagesrc from '../assets/yandex.png';
+import CardArray from './utils';
+const initialpicture = CardArray();
 
+const PicturesList = ({ deacreaseHearts, increaseScore }) => {
 
-const PicturesList = () => {
     function pictureReduced(pictures, action) {
         switch (action.type) {
             case 'update':
@@ -26,12 +27,20 @@ const PicturesList = () => {
                     name: action.name,
                     checked: true
                 }]
+            }
+            case 'hidden': {
+              return  pictures.map(t => {
+                    return {
+                        index: t.index,
+                        name: t.name,
+                        checked: false
+                    }
+                })
 
             }
         }
 
     }
-
 
     function CardReducer(cards, action) {
         switch (action.type) {
@@ -48,12 +57,7 @@ const PicturesList = () => {
         }
     }
 
-    const [relode, setrelode] = useState(false);
-    const [pictures, picturedispatch] = useReducer(pictureReduced, []);
-    for (let i = 0; i < 24; i++) {
-        picturedispatch({ type: 'add', index: i, name: imagesrc, checked: false })
-    };
-
+    const [pictures, picturedispatch] = useReducer(pictureReduced, initialpicture);
     const clicked_cards = [];
     const [state, dispatch] = useReducer(CardReducer, clicked_cards);
 
@@ -66,11 +70,14 @@ const PicturesList = () => {
             else {
                 if (state[0].name == name) {
                     console.log('here')
-                    // pictures[state[0].index] = <PictureCard name={imagesrc} checked={true} />
-                    // pictures[index] = <PictureCard name={imagesrc} checked={true} />
+                    picturedispatch({ type: 'update', index: index, name: name })
+                    picturedispatch({ type: 'update', index: state[0].index, name: state[0].name })
+                    increaseScore();
                     dispatch({ type: 'delete' })
-                    setrelode(true);
-
+                }
+                else {
+                    deacreaseHearts()
+                    dispatch({ type: 'delete' })
                 }
 
             }
@@ -86,16 +93,16 @@ const PicturesList = () => {
         }
         console.log(state)
     }
+    useEffect(() => {
+        const timer = setTimeout(() => picturedispatch({ type: 'hidden' }), 5000)
 
-
+    }, []);
 
     return (
-        // <PictureCard />
         <Stack
             direction='row'
             flexWrap='wrap'
-            justifyContent={'center'}
-        >
+            justifyContent={'center'}>
             {pictures.map(card =>
                 <PictureCard key={card.index} index={card.index} handle_clicked={handle_clicked} name={card.name} checked={card.checked} />
             )}

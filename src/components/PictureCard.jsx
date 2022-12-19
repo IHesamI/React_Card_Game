@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Stack, Box, CardActionArea, Button } from '@mui/material';
+import { Box, } from '@mui/material';
 import '../index.css';
 
 const PictureCard = ({ index, handle_clicked, name, checked }) => {
@@ -9,14 +9,13 @@ const PictureCard = ({ index, handle_clicked, name, checked }) => {
             {checked ?
                 <Box className={'scene'}>
                     <Box
-                        className='card_face'
+                        className='card_face card_face--checked'
                         component={'img'}
                         width={'192px'}
                         height={'151px'}
                         src={name}
                         alt="image" />
                 </Box>
-
                 :
 
                 <Box
@@ -26,7 +25,7 @@ const PictureCard = ({ index, handle_clicked, name, checked }) => {
                         className={className}
                         onClick={() => {
                             setClassName(className == 'card' ? 'card is-flipped' : 'card')
-                            handle_clicked(index,)
+                            handle_clicked(index, name)
                         }}>
                         <Box
                             className='card_face card_face--front'
